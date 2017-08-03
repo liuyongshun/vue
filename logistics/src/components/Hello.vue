@@ -32,22 +32,16 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
+<style lang="stylus" rel="stylesheet/stylus">
+h1, h2
   font-weight: normal;
-}
-
-ul {
+ul
   list-style-type: none;
   padding: 0;
-}
-
-li {
+li
   display: inline-block;
   margin: 0 10px;
-}
-
-a {
+a
   color: #42b983;
-}
+
 </style>
