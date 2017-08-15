@@ -2,6 +2,7 @@ require('./check-versions')()
 
 process.env.NODE_ENV = 'production'
 
+//一个打包提示，
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')

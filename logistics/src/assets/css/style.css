@@ -1149,7 +1149,7 @@ input::-webkit-inner-spin-button {
 /************biao****************/
 
 .b_search {
-	background: url(../images/bj.png) no-repeat;
+	background: url(../../components/home/images/bj.png) no-repeat;
 	background-size: 100%;
 	height: 3.57rem;
 	padding: 0.6rem 20px 0px
@@ -1159,7 +1159,7 @@ input::-webkit-inner-spin-button {
 	width: 100%;
 	height: 0.82rem;
 	line-height: 0.82rem;
-	background: url("../images/search_icon.png") no-repeat 2rem center/0.3rem 0.3rem #ffffff;
+	background: url("../../components/home/images/search_icon.png") no-repeat 2rem center/0.3rem 0.3rem #ffffff;
 	border-radius: 5px;
 	text-align: center;
 	color: #8f8f8f;

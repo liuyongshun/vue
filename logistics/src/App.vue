@@ -1,22 +1,28 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <v-header></v-header>
+    <v-list></v-list>
+    <!--<router-view></router-view>-->
   </div>
 </template>
 
 <script >
-export default {
-  name: 'app'
-}
+  import header from './components/home/header.vue'
+  import list from './components/home/list.vue'
+
+  export default {
+    components: {
+      'v-header': header,
+      'v-list': list
+    }
+  }
 </script>
 
-<style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+<style lang="stylus" rel="stylesheet/stylus">
+  #app
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
-  }
 </style>
