@@ -19,9 +19,9 @@
     padding: 0.6rem 20px 0px;
   .b_search_content {
     width: 100%;
-    height: 0.82rem;
-    line-height: 0.82rem;
-    background: url("images/search_icon.png") no-repeat 2rem center/0.3rem 0.3rem #ffffff;
+    height: 0.72rem;
+    line-height: 0.72rem;
+    background: url("images/search_icon.png") no-repeat 2rem .22rem/0.28rem 0.28rem #ffffff;
     border-radius: 5px;
     text-align: center;
     color: #8f8f8f;
