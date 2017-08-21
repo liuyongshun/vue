@@ -67,5 +67,30 @@ E:\git\node\index.js
 #### `exports`
 
 ```
+导出模块：
+module.exports.f = ...
+简写：
+exports.f = ...
 
+一个新的值被赋值给 exports，它就不再绑定到 module.exports
+exports = { hello: false };  // 不导出，只在模块内有效
+```
+
+#### `module`不是全局的，而是每个模块本地的。
+
+```
+function Module(id, parent) {
+    this.id = id;
+    this.exports = {};
+    this.parent = parent;
+    if (parent && parent.children) {
+        parent.children.push(this);
+    }
+    this.filename = null;
+    this.loaded = false;
+    this.children = [];
+}
+
+// console.log(module) 能打印module属性。
+// module.children 该模块引用的模块对象。
 ```
