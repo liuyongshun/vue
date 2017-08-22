@@ -94,3 +94,62 @@ function Module(id, parent) {
 // console.log(module) 能打印module属性。
 // module.children 该模块引用的模块对象。
 ```
+
+#### `require()`
+
+```
+// path是node的核心模块之一，可以直接引入。
+require('path');
+```
+
+#### `console`
+
+- 类似于web浏览器提供的console。
+- 一个 Console 类，包含 console.log() 、 console.error()方法，可以被用于写入到任何 Node.js 流。
+- 一个全局的 console 实例，可被用于写入到 process.stdout 和 process.stderr。且使用时无需调用 require('console')。
+
+```
+// console类
+const myConsole = new console.Console(out, err);
+myConsole.log('hello world');
+
+// console全局
+console.log('hello world');
+```
+
+#### `process`
+
+- Windows系统下，环境变量是不区分大小写的
+- 对于node对象始终可用，无需require()
+```
+// 返回 Node.js 进程当前工作的目录
+console.log(process.cwd());
+
+// 返回一个包含用户环境信息的对象。
+console.log(process.env);
+
+// process.env 比较常用。但用的是它可以修改的特性。通过改写，可以切换生产和开发环境
+process.env.foo = 'development';
+console.log(process.env.foo);
+
+// process.env中新增一个属性，会将属性值转换成字符串
+process.env.test = null;
+console.log(process.env.test);  // 'null'
+```
+
+其他全局：
+
+- setTimeout(callback, delay[, ...args])
+- setInterval(callback, delay[, ...args])
+- clearInterval(intervalObject)
+- clearTimeout(timeoutObject)
+
+关于node的退出状态码：
+- 0 : 正常退出。
+- 1 : 未捕获的异常。
+- 2 : 无用的。
+- 3 : 内部的js解析错误。
+- 5 : 严重错误，不可恢复。
+- 6 : 内部处理程序功能异常。
+- 7 : 内部异常处理程序运行时失败。
+- 9 : 非法参数。
