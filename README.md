@@ -1,14 +1,3 @@
-# fsfcfsfsfsf
-- sfsf
-# fsfsff
-# gfdgdhf
-# sdgdsg
-# 465464674]
-# sdfsghf fsfefsf sdferfglsjgsggj
-dfssfsdf
-# dsfsfs
-# fsgdg
-# 
-# gdgdfg fdgd
-fsdf
-gfdsgdfg
+# NODE 知识
+[node全局变量](https://github.com/liuyongshun/vue/blob/master/logistics/summary/node.md)
+[node模块](https://github.com/liuyongshun/vue/blob/master/logistics/summary/node-module.md)
