@@ -34,7 +34,7 @@ if (true)
 - 异步回调第一个参数是错误提示。
 - 版本记录的hook，实现代码检测。
 
-### 二、NODE全局变量
+### 二、NODE变量
 
 #### 1、可以全局访问，但不是全局对象
 
@@ -145,6 +145,7 @@ console.log(process.env.test);  // 'null'
 - clearTimeout(timeoutObject)
 
 关于node的退出状态码：
+
 - 0 : 正常退出。
 - 1 : 未捕获的异常。
 - 2 : 无用的。
