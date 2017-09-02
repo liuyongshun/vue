@@ -1,8 +1,30 @@
 ### String
-> JavaScript字符以UTF-16的格式储存，每个字符固定为2个字节。对于那些需要4个字节储存的字符（Unicode码点大于0xFFFF的字符），JavaScript会认为它们是两个字符。
+> JavaScript字符以UTF-16的格式储存，每个字符固定为2个字节。对于那些需要4个字节储存的字符（Unicode码点大于0xFFFF的字符），JavaScript会认为它们是两个字符。且length的长度会变为2。
 
-**NOTE:** 对于四个字节的特殊字，charAt()无法使用，且length
+**NOTE:** 对于四个字节的特殊字，charAt()无法使用。charCodeAt(0)也不正确。
 
+```
+var s = "𠮷a";
+console.log(s.length) // 3
+```
+
+**for of 正确识别**
+
+```
+for (variable of s) {
+    console.log(variable);
+}
+// 虽然length是3，但是for of 值遍历了两次。
+// 𠮷 a
+```
+
+**codePointAt(0)正确返回码值。codePointAt(1)不是。codePointAt(3)是a**
+
+```
+console.log(s.codePointAt(0))  // 134071
+console.log(s.codePointAt(1))  // 57271
+console.log(s.codePointAt(2))  // 97
+```
 // 1.确定一个字符串是否包含在另一个字符串中，通常indexOf();
 /**
  * [ new method of string by ES6 ]
