@@ -65,6 +65,10 @@ function add (x, y) {
 }
 var numbers = [4, 38];
 console.log(add(...numbers)); // 42
+
+// 将字符串转化为数组
+[...'hello']
+// [ "h", "e", "l", "l", "o" ]
 ```
 
 ### 二、解构赋值
@@ -167,7 +171,7 @@ foo(7); // 3
 
 ### 四、ES6函数写法
 
-1、箭头函数
+箭头函数
 
 1.函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
 2.不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
@@ -176,49 +180,66 @@ foo(7); // 3
 5.由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号。
 
 ```
+// 如果箭头函数不需要参数或需要多个参数，则用圆括号代替参数部分。
+var f = () => 1;
+var sum = (arg, arg1) => arg + arg1;
+```
+```
+5.
 var getTempItem = id => ({ id: id, name: 'Temp' });
+同：
+var getTempItem = function (id) {
+    return {
+        id: id,
+        name: 'Temp'
+    }
+}
 console.log(getTempItem());
 ```
-S
-/**
- * this指向的固定化，并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数根本没有自己的this，
- * 导致内部的this就是外层代码块的this。正是因为它没有this，所以也就不能用作构造函数。
- * 除了this，以下三个变量在箭头函数之中也是不存在的，指向外层函数的对应变量：arguments、super、new.target
- */
-// 箭头函数导致this总是指向(函数定义生效:用call调用对象才使this生效，调用别的则不行)时所在的对象（本例是{id: 42}），所以输出的是42。
+
+this指向的固定化，并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数根本没有自己的this，导致内部的this就是外层代码块的this。正是因为它没有this，所以也就不能用作构造函数。
+除了this，以下三个变量在箭头函数之中也是不存在的，指向外层函数的对应变量：arguments、super、new.target
+
+```
+// 箭头函数导致this总是指向函数定义生效时所在的对象（本例是{id: 42}），所以输出的是42。
+
+// 判断this指向技巧：函数调用this指向全局，对象方法调用this指向对象。
 function foo () {
   setTimeout(() => {
-    console.log('id:', this.id);
+    console.log('id:', this.id); // 42
   }, 100);
 }
-var id = 21;
-foo.call({});
-console.log(id);
 
-/**
- * 尾调用：某个函数的最后一步是调用另一个函数
- * 函数调用：函数调用会在内存形成一个 “ 调用记录 ” ，又称 “ 调用帧 ” （ call frame ），保存调用位置和内部变量等信息。
- * 如果在函数 A 的内部调用函数 B ，那么在 A 的调用帧上方，还会形成一个 B 的调用帧。
- * 等到 B 运行结束，将结果返回到 A ， B 的调用帧才会消失。如果函数 B 内部还调用函数 C ，那就还有一个 C 的调用帧。
- * 所有的调用帧，就形成一个 “ 调用栈 ” （ call stack ）
- */
-// 不是尾调用，g(x)其实还有一个默认操作，return undefined
-function f (x) {
-  g(x);
+function foo () {
+  var that = this;
+  setTimeout(function () {
+    console.log('id:', that.id); // 42
+  }, 100);
 }
-f(3);
-// 尾调用优化，如果函数 g 不是尾调用，函数 f 就需要保存内部变量 m 和 n 的值、 g 的调用位置等信息。
-// 但由于调用 g 之后，函数 f 就结束了，所以执行到最后一步，完全可以删除 f(x)  的调用帧，只保留 g(3)  的调用帧。
-function f () {
-  let m = 1;
-  let n = 2;
-  return g (m + n);
+
+function foo () {
+  setTimeout(function () {
+    console.log('id:', this.id); // 21
+  }, 100);
 }
-f();
-//  等同于
-function f() {
-  return g(3);
-}
-f();
-//  等同于
-g(3);
+
+var id = 21;
+foo.call({id: 42});
+```
+
+### 五、函数严格模式
+- 变量必须声明后再使用
+- 函数的参数不能有同名属性，否则报错
+- 不能使用with语句
+- 不能对只读属性赋值，否则报错
+- 不能使用前缀 0 表示八进制数，否则报错
+- 不能删除不可删除的属性，否则报错
+- 不能删除变量delete prop，会报错，只能删除属性delete global[prop]
+- eval不会在它的外层作用域引入变量
+- eval和arguments不能被重新赋值
+- arguments不会自动反映函数参数的变化
+- 不能使用arguments.callee
+- 不能使用arguments.caller
+- 禁止this指向全局对象
+- 不能使用fn.caller和fn.arguments获取函数调用的堆栈
+- 增加了保留字（比如protected、static和interface）
