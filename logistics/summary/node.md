@@ -74,6 +74,7 @@ exports.f = ...
 
 一个新的值被赋值给 exports，它就不再绑定到 module.exports
 exports = { hello: false };  // 不导出，只在模块内有效
+module.exports = { hello: false };  // 可以正常导出，所以尽量不要简写
 ```
 
 #### `module`不是全局的，而是每个模块本地的。
