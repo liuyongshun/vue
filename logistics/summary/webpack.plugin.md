@@ -80,4 +80,106 @@ note:单独用的时候可能会无效，（我的后来设置了html-loader后�
 ```
 
 
-### 三、
+### 三、extract-text-webpack-plugin 抽离css
+
+```
+      {
+        test: /\.styl$/,  // compile 'stylus' into 'css'
+        use: ExtractTextPlugin.extract({   // separate css that was compiled
+          fallback: 'style-loader',
+          use: ['css-loader', 'stylus-loader']
+        })
+      },
+
+      或
+
+      plugins: [
+        new ExtractTextPlugin({
+          filename: utils.assetsPath('css/[name].[contenthash].css')
+        }),
+```
+
+### 四、webpack-dev-middleware 启动服务器
+
+```
+基于express
+var app = express()
+
+var webpackMiddleware = require("webpack-dev-middleware");
+app.use(webpackMiddleware(...));
+
+app.use(webpackMiddleware(webpack({
+    entry: "...",
+    output: {
+        path: "/"
+        // no real path is required, just pass "/" 
+        // but it will work with other paths too. 
+    }
+}), {
+    // publicPath is required, whereas all other options are optional 
+ 
+    noInfo: false,
+    // display no info to console (only warnings and errors) 
+ 
+    quiet: false,
+    // display nothing to the console 
+ 
+    lazy: true,
+    // switch into lazy mode 
+    // that means no watching, but recompilation on every request 
+ 
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: true
+    },
+    // watch options (only lazy: false) 
+ 
+    publicPath: "/assets/",
+    // public path to bind the middleware to 
+    // use the same as in webpack 
+ 
+    index: "index.html",
+    // The index path for web server, defaults to "index.html". 
+    // If falsy (but not undefined), the server will not respond to requests to the root URL. 
+ 
+    headers: { "X-Custom-Header": "yes" },
+    // custom headers 
+ 
+    mimeTypes: { "text/html": [ "phtml" ] },
+    // Add custom mime/extension mappings 
+    // https://github.com/broofa/node-mime#mimedefine 
+    // https://github.com/webpack/webpack-dev-middleware/pull/150 
+ 
+    stats: {
+        colors: true
+    },
+    // options for formating the statistics 
+ 
+    reporter: null,
+    // Provide a custom reporter to change the way how logs are shown. 
+ 
+    serverSideRender: false,
+    // Turn off the server-side rendering mode. See Server-Side Rendering part for more info. 
+}));
+```
+
+### 五、webpack-hot-middleware 热更新
+
+```
+1. 在plugins构建如下。
+plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+]
+
+2.
+var webpack = require('webpack');
+var webpackConfig = require('./webpack.config');
+var compiler = webpack(webpackConfig);
+ 
+app.use(require("webpack-dev-middleware")(compiler, {
+    noInfo: true, publicPath: webpackConfig.output.publicPath
+}));
+
+app.use(require("webpack-hot-middleware")(compiler));
+```
