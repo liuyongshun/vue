@@ -13,12 +13,6 @@ var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 
-// mock json
-const db = require('../db.js')
-const routes = require('./routes.js')
-const port = 3000;
-
-
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
 // automatically open browser, if not set will be false
@@ -26,7 +20,6 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
-
 var app = express()
 var compiler = webpack(webpackConfig)
 
@@ -39,6 +32,7 @@ var hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {},
   heartbeat: 2000
 })
+
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', function (compilation) {
   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
