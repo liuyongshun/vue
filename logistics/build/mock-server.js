@@ -1,9 +1,10 @@
 var express = require('express')
+var proxy = require('http-proxy-middleware')
 var router = express.Router()
 var app = express()
-var port = process.env.PORT || 800
+var port = process.env.PORT || 80
 // mock json
-var resDataMethod = require('../controllers/controllers')
+var resDataMethod = require('../routers/routers')
 
 router.get('/aa', resDataMethod.homeList)
 
