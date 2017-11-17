@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="stylesheet" href="../css/mui.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-1.9.1.js"></script>
+  <script src="../js/commen.js"></script>
+  <script src="../js/rem.js"></script>
+  <title></title>
+  <style>
+    .mui-content {
+      background-color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+<div class="padlg">
+  <div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="margin-bottom: 0.8rem">
+    <div class="mui-scroll">
+      <ul class="l_disclose_list mui-table-view mui-table-view-striped mui-table-view-condensed">
+        <!--<li>-->
+          <!--<a href="">-->
+            <!--<time>2017-6-23</time>-->
+            <!--<img class="fr l_delete_icon" src="../images/qingkong@3x.png" alt="">-->
+            <!--<div class="l_con_word">放松放松法</div>-->
+            <!--<img class="l_con_img" src="../images/zzzz.png" alt="">-->
+          <!--</a>-->
+        <!--</li>-->
+      </ul>
+    </div>
+  </div>
+</div>
+<a href="" class="l_skip_disclose">爆个料</a>
+<div class="l_nothing_tip">
+  <img src="../images/zanwuneirong@3x.png" alt="">
+  <i class="l_marked_words"></i>
+</div>
+<div class="b-msg"></div>
+<script src="../js/mui.min.js"></script>
+<script>
+  var loginData = get('loginData');
+  var $disclose = $('.l_disclose_list');
+  var $msg = $('.b-msg');
+  var $listPub = $('.l_list_pub');
+  var $nothing = $('.l_nothing_tip');
+  var $markedWords = $('.l_marked_words');
+  var pageIndex = 1;
+  var end;
+  
+  // init mui
+  mui.init({
+    pullRefresh: {
+      container: '#pullrefresh',
+      down: {
+        callback: pulldownRefresh
+      },
+      up: {
+        contentrefresh: '正在加载...',
+        callback: pullupRefresh
+      }
+    }
+  });
+  
+  // For the first time to load
+  ajaxDisclose(1);
+  
+  // method
+  function pulldownRefresh() {
+    mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+  }
+  function pullupRefresh() {
+    if (end === true) {
+      this.endPullupToRefresh(true);
+      
+    } else {
+      
+      pageIndex ++;
+      ajaxDisclose(pageIndex);
+      mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+    }
+    
+  }
+  
+  function ajaxDisclose (page) {
+    $.ajax({
+      url: AjaxUrl + 'TipoffList',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        'i_ui_identifier': loginData.data.i_ui_identifier,
+        'password': loginData.data.password,
+        'CurrentPage': page,
+        'PageSize': '10'
+      },
+      success: function (data) {
+        console.log(data)
+        var userData = data.data;
+        var length = userData.length;
+        var html = '';
+        
+        for (var i = 0; i < length; i ++) {
+          html += '<li data-id="' + userData[i].tr_id + '">'
+            +   '<a href="">'
+            +     '<time>' + userData[i].time + '</time>'
+            +     '<img class="fr l_delete_icon" src="../images/qingkong@3x.png" alt="">'
+            +     '<div class="l_con_word">' + userData[i].title + '</div>'
+            +     '<img class="l_con_img" src="' + avatorUrl + userData[i].image[0].url + '" alt="">'
+            +   '</a>'
+            + '</li>'
+        }
+        // last page
+        if (length === 0) {
+          end = true;
+        }
+        
+        if (page === 1) {
+          
+          // without data tip
+          if (length === 0) {
+            $nothing.show();
+            $markedWords.text('暂无爆料');
+            $('#pullrefresh').hide();
+          }
+          
+          $disclose.empty().append(html);
+          return false;
+        }
+        $disclose.append(html);
+      }
+    });
+  }
+  
+  // event
+  mui('body').on('tap', '.l_delete_icon', function () {
+    var id = $(this).parents('li').attr('data-id');
+    
+    $.ajax({
+      url: AjaxUrl + 'RemoveTipoff',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        'i_ui_identifier': loginData.data.i_ui_identifier,
+        'password': loginData.data.password,
+        'tr_id': id
+      },
+      success: function (data) {
+        if (data.status === 'success') {
+          $msg.html(data.Msg).show().delay(1000).fadeOut();
+          setTimeout(function () {
+            location.reload();
+          }, 1200)
+        }
+      }
+    });
+    
+  })
+
+  $('.l_skip_disclose').on('click', function () {
+    location.href = 'disclose.html';
+  })
+</script>
+</body>
+
+
+</html>

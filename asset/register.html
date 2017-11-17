@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no" />
+		<title>注册</title>
+		<link rel="stylesheet" href="css/style.css">
+        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="js/rem.js"></script>
+        <script type="text/javascript" src="js/template-web.js"></script>
+        <script type="text/javascript" src="js/commen.js"></script>
+        <script type="text/javascript" src="js/md5.min.js"></script>
+
+	</head>
+
+
+    <body>
+		<div class="b_login">
+        	<div class="b_login_div">
+            	<input type="text" placeholder="请输入手机号" class="b_login-input user-img" id="mobile">
+            </div>
+			<div class="b_login_div">
+				<input type="text" placeholder="请输入验证码" class="smaller-width b_login-input code-img " id="code">
+                <input value="获取验证码" type="button" class="b_code-button" id="send-code">
+			</div>            
+          <div class="b_login_div">
+            	<input type="password" placeholder="请输入密码" class="b_login-input password-img small-width" id="password">
+                <img src="images/yjj@3x.png" class="eye-password" id="eye" onClick="b_eye()">
+         </div>
+           <input type="button" value="注册" class="b_mom_btn" id="submit-register" style="margin-top:1rem">
+           <div class="b_reminder-msg"><div class="b-msg"></div></div>
+        </div>
+
+        <script>
+        	$(function(){
+				$("#submit-register").click(function(e) {
+                    var mobile = $("#mobile").val();
+					var code = $("#code").val();
+					var password = $("#password").val();
+					if(mobile==""){
+						$(".b-msg").empty()
+						$(".b-msg").html("请输入用户名/手机号").show().delay(2000).fadeOut()
+					}else if(code==""){
+						$(".b-msg").empty()
+						$(".b-msg").html("验证码不能为空").show().delay(2000).fadeOut()
+					}else if(password==""){
+						$(".b-msg").empty()
+						$(".b-msg").html("密码不能为空").show().delay(2000).fadeOut()
+					}else{
+						$.ajax({
+							url:AjaxUrl+'Register',
+							type:'POST',
+							dataType:'json',
+							data:{
+								"mobile":mobile,
+								"Vcode":code,
+								"password":password,
+								"sourse":2
+							},
+							success: function(data){
+							    console.log(data)
+								if(data.status=="success"){
+                                    set('loginData',data.data[0]);//存储返回来的数据信息，JSON.stringify()方法将对象转换为字符串
+									$(".b-msg").empty()
+									$(".b-msg").html(data.Msg).show().delay(2000).fadeOut()
+									 setTimeout("window.location='login.html'",1000)
+								}else{
+									$(".b-msg").empty()
+									$(".b-msg").html(data.Msg).show().delay(2000).fadeOut()
+								}
+							}
+						})
+					}
+                });
+			})
+
+            //获取验证码 倒计时60
+            $("#send-code").on('click',function () {
+                Sendcode('1');
+            })
+            var countdown=60;
+            var code3 = $("#send-code");
+            function settime() {
+                console.log(5678)
+                if (countdown == 0) {
+                    code3.attr("disabled",false);
+                    code3.val("获取验证码");
+                    code3.css({
+                        borderColor:'#e43a3d',
+                        color:'#e43a3d'
+                    })
+                    countdown = 60;
+                    return false;
+                } else {
+                    $("#send-code").attr("disabled", true);
+                    code3.val(countdown+"s后重新发送");
+                    code3.css({
+                        borderColor:'#ccc',
+                        color:'#ccc'
+                    })
+                    countdown--;
+                }
+                setTimeout(function() {settime()},1000);
+            }
+        </script>
+    </body>
+</html>

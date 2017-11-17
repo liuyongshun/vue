@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-1.9.1.js"></script>
+  <link rel="stylesheet" href="../css/zyUpload.css">
+  <script src="../js/commen.js"></script>
+  <script src="../js/rem.js"></script>
+  <script type="text/javascript" src="../js/zyFile.js"></script>
+  <script type="text/javascript" src="../js/zyUpload.js"></script>
+  <title>个人认证</title>
+</head>
+
+<body>
+<div class="padlg">
+  <ul class="l_tab_list" style="margin-bottom: 0;">
+    <li class="l_list_cell">标题：<input id="title" class="l_input_pub" type="text"></li>
+    <li class="l_list_cell">
+      是否原创：
+      <label class="l_origin"><input type="radio" name="origin" data-id="1" checked="checked">是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+      <label class="l_origin"><input type="radio" name="origin" data-id="0">否</label>
+    </li>
+    <li class="l_list_cell">来源：<input id="origin" class="l_input_pub" type="text"></li>
+  </ul>
+  <h4 class="l_intr">详情：</h4>
+  <textarea name="" id="detail" class="l_text_area"></textarea>
+  <h4 class="l_intr">图片：<span class="l_tip_count">(最多上传5张)</span></h4>
+  <div class="mui-col-sm-12 mui-col-xs-12" id="imgUpload">
+  
+  </div>
+  <div class="l_keyword">
+    关键字：
+    <div>
+      <input class="l_key_word" type="text">
+      <input class="l_key_word" type="text">
+      <input class="l_key_word" type="text">
+      <input class="l_key_word" type="text">
+      <input class="l_key_word" type="text">
+    </div>
+  </div>
+  <div class="div_botm_btn">
+    <input type="button" value="发布" class="b_mom_btn">
+  </div>
+</div>
+<div class="b-msg"></div>
+<script>
+  var loginData = get('loginData');
+  var type = getParam('id');
+  var $msg = $('.b-msg');
+  
+  //上传图片初始化
+  $(function(){
+    // 初始化插件
+    $("#imgUpload").zyUpload({
+      width             :   "",                 // 宽度
+      height            :   "",                 // 宽度
+      itemWidth        :   "1.7rem",                 // 文件项的宽度
+      itemHeight       :   "1.7rem",                 // 文件项的高度
+      url               :  '',  // 上传文件的路径
+      multiple         :   true,                    // 是否可以多个文件上传
+      dragDrop         :   false,                    // 是否可以拖动上传文件
+      del               :   true,                    // 是否可以删除文件
+      finishDel        :   true,  				  // 是否在上传文件完成后删除预览
+      /* 外部获得的回调接口 （备注：此处不能用，需要在zyUpload.js中设置）*/
+      onSelect: function(files, allFiles){  // 选择文件的回调方法
+        if (allFiles.length >= 5) {
+          $('.add_upload').hide();
+        }
+//                    console.info("当前选择了以下文件：");
+//                    console.info(files);
+//                    console.info("之前没上传的文件：");
+//                    console.info(allFiles);
+      },
+      onDelete: function(file, surplusFiles){                     // 删除一个文件的回调方法
+
+//                    console.info("当前删除了此文件：");
+//                    console.info(file);
+//                    console.info("当前剩余的文件：");
+//                    console.info(surplusFiles);
+      },
+      onSuccess: function(file, response){                    // 文件上传成功的回调方法
+//                    console.info("此文件上传成功：");
+//                    console.info(file);
+//                    console.info("0000000000000");
+//					console.info(response);
+      },
+      onFailure: function(file){                    // 文件上传失败的回调方法
+//                    console.info("此文件上传失败：");
+//                    console.info(file);
+      },
+      onComplete: function(responseInfo){           // 上传完成的回调方法
+//                    console.info("文件上传完成");
+//                    console.info(responseInfo);
+      }
+    });
+  });
+
+  $('.b_mom_btn').on('click', function () {
+    var title = $('#title').val();
+    var create = ($('.l_origin input:checked').attr('data-id') === '1' ? 'true' : 'false');
+    var origin = $('#origin').val();
+    var detail = $('#detail').val();
+    var vessel = '';
+    
+    // contact string
+    $('.l_key_word').each(function () {
+      vessel += $(this).val() + ',';
+    });
+    // formatting string
+    var keyword = vessel.trim().replace(/^,|,+$/g, '');
+    
+    var form = new FormData(document.getElementById("uploadForm"));
+    form.append('i_ui_identifier', loginData.data.i_ui_identifier);
+    form.append('title', title);
+    form.append('original', create);
+    form.append('source', origin);
+    form.append('note', detail);
+    form.append('keyworld', keyword);
+    form.append('type', type || 0);
+
+    $.ajax({
+      url:AjaxUrl + 'UserPublishNews',
+      type:'POST',
+      dataType:'json',
+      data: form,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        if (data.status === 'success') {
+          $msg.html(data.Msg).show().delay(1000).fadeOut();
+          setTimeout(function () {
+            location.href = '../mine/user-index.html';
+          }, 1500)
+        } else {
+          $msg.empty()
+          $msg.html(data.Msg).show().delay(1000).fadeOut();
+        }
+      }
+    })
+    
+  });
+
+</script>
+</body>
+
+
+</html>

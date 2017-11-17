@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no" />
+  <title>陶瓷名录</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="js/rem.js"></script>
+  <script type="text/javascript" src="js/commen.js"></script>
+</head>
+
+
+<body class="bg_hui">
+<!--search start-->
+<div class="b_search2">
+  <div class="fl b_search_content2" style=" width:84%">
+    <input placeholder="请输入关键字" class="j_searchBTN" id="keywords">
+  </div>
+  <span class="fl" style="width:13%">
+    <img src="images/search_icon.png" class="right_icon" onclick="SiteSearch()">
+  </span>
+</div>
+<!--search end-->
+<!--Recent start-->
+<div class="part3">
+  <dl class="b_recent searchistory">
+    <dt class="dt_recent ">
+      <span class="fl span_recent">搜索记录</span>
+      <span class="fr" onclick="clearHistory();">
+        <img src="images/MyImg/dele@3x.png" class="search_img">
+            清空历史
+      </span>
+    </dt>
+    <div id="searchdd" class="l_box_history"></div>
+  </dl>
+  <dl class="b_recent searchistory">
+    <dt class="dt_recent">
+      <span class="fl span_recent">搜索推荐</span>
+    </dt>
+    <div class="l_box_history">
+      <dd class="ellipsis" title="fsdf"><a href="#">fsdf</a></dd>
+    </div>
+  </dl>
+</div>
+<!--Recent end-->
+<script type="text/javascript">
+
+  /**
+   * **********************************历史搜索**********************************
+   */
+    
+    //产品搜索并存值
+  function SiteSearch(){
+    var sszd = $("#keywords").val().trim();
+    if(sszd!==""){
+      setHistoryItems(sszd);
+    }
+    location.href=thisurl+'?i_cti_identifier=0&keyword='+sszd;
+  };
+  //取值写入页面
+  $(function(){
+    var str=localStorage.historyItems;
+    var s = '';
+    if (str==undefined) {
+      s='<div class="rmssts">暂无搜索记录...</div>';
+      $(".searchistory").append(s)
+    }else{
+      var strs= new Array();
+      strs=str.split("|");
+      
+      for (var i=0;i<strs.length - 1;i++) {
+        s += '<dd class="'+'ellipsis" title='+strs[i]+'><a href="#">'+strs[i]+'</a></dd>';
+      }
+      $("#searchdd").append(s);
+      
+    }
+  });
+  
+  //存值方法,新的值添加在首位
+  function setHistoryItems(keyword) {
+    var { historyItems } = localStorage;
+    if (historyItems === undefined) {
+      localStorage.historyItems = keyword + "|";
+    } else {
+      historyItems = keyword + '|' + historyItems.split('|').filter(function (e) {return e != keyword}).join('|');
+      localStorage.historyItems = historyItems ;
+      
+    }
+  };
+  //清除值
+  function clearHistory() {
+    localStorage.removeItem('historyItems');
+    var div = document.getElementById("searchdd");
+    while(div.hasChildNodes()) //当div下还存在子节点时 循环继续
+    {
+      div.removeChild(div.firstChild);
+    }
+    $("#searchdd").append('<div class="rmssts">暂无搜索记录...</div>');
+    
+  }
+  //三个搜索栏目添加超链接
+  $(".b_recent").on("click","a", function () {
+    var title = $(this).text();
+    window.location = "list/list.html?i_cti_identifier=0&keyword="+title;
+  })
+</script>
+</body>
+
+</html>

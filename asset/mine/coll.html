@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no" />
+  <title>我的</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mui.css">
+  <script src="../js/commen.js"></script>
+  <script src="../js/jquery-1.9.1.js"></script>
+  <script src="../js/mui.min.js"></script>
+  <script src="../js/rem.js"></script>
+</head>
+<body style="background-color: #fff">
+<div class="l_nav_flex">
+  <div class="l_flex_item l_star focus" data-val="0">资讯</div>
+  <div class="l_flex_item l_star" data-val="1">会刊</div>
+</div>
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="margin-top: 0.74rem;background-color: #fff;">
+  <div class="mui-scroll">
+    <ul id="company_list" class="l_list_pub pdtp24 mui-table-view mui-table-view-striped mui-table-view-condensed">
+      <!--<li>-->
+      <!--<a href="">-->
+      <!--<h3 class="l_list_tit ellipsis">山西应县陶瓷产品价格统一上涨10山西应县陶瓷产品价格统一上涨10%</h3>-->
+      <!--<div class="l_msg_below">-->
+      <!--<span class="l_stick">置顶</span>-->
+      <!--<time>中国陶瓷官网 2017-6-23</time>-->
+      <!--</div>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a href="">-->
+      <!--<h3 class="l_list_tit ellipsis">山西应县陶瓷产品价格统一上涨10山西应县陶瓷产品价格统一上涨10%</h3>-->
+      <!--<div class="l_msg_below">-->
+      <!--<span class="l_stick">专题</span>-->
+      <!--<time>中国陶瓷官网 2017-6-23</time>-->
+      <!--</div>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a href="">-->
+      <!--<h3 class="l_list_tit ellipsis">山西应县陶瓷产品价格统一上涨10山西应县陶瓷产品价格统一上涨10%</h3>-->
+      <!--<ul class="l_pic_pro">-->
+      <!--<li><img src="../images/pic.jpg" alt=""></li>-->
+      <!--<li><img src="../images/pic.jpg" alt=""></li>-->
+      <!--<li><img src="../images/pic.jpg" alt=""></li>-->
+      <!--</ul>-->
+      <!--<div class="l_msg_below">-->
+      <!--<time>中国陶瓷官网 2017-6-23</time>-->
+      <!--</div>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a href="">-->
+      <!--<h3 class="l_list_tit ellipsis">山西应县陶瓷产品价格统一上涨10山西应县陶瓷产品价格统一上涨10%</h3>-->
+      <!--<div class="l_msg_below">-->
+      <!--<time>中国陶瓷官网 2017-6-23</time>-->
+      <!--</div>-->
+      <!--<div class="l_vedio_frame">-->
+      <!--<h2 class="l_vedio_tit">河北省陶瓷</h2>-->
+      <!--<em class="l_vedio_time">12万次播放</em>-->
+      <!--<img src="../images/zzzz.png" alt="" class="l_vedio_bg" >-->
+      <!--<img src="../images/bofang@3x.png" alt="" class="l_vedio_play">-->
+      <!--<span class="l_vedio_long">22:22 </span>-->
+      <!--</div>-->
+      <!--<div class="l_msg_below">-->
+      <!--<time>中国陶瓷官网 2017-6-23</time>-->
+      <!--<span class="l_bottom_func mgnone"><img src="../images/shoucang@3x.png" alt=""></span>-->
+      <!--<span class="l_bottom_func"><img src="../images/bianji@3x.png" alt=""> <i>33</i></span>-->
+      <!--<span class="l_bottom_func"><img src="../images/zan@3x.png" alt=""> <i>55</i></span>-->
+      <!--</div>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a href="">-->
+      <!--<div class="l_lf_word">-->
+      <!--<h3 class="l_list_tit elli">山西应县陶瓷产品价格统一上涨10山西应县陶瓷产品价格统一上涨10%</h3>-->
+      <!--<div class="l_msg_below">-->
+      <!--<time>中国陶瓷官网 2017-6-23</time>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<img class="fr l_alone_pic" src="../images/pic.jpg" alt="">-->
+      <!--</a>-->
+      <!--</li>-->
+    </ul>
+  </div>
+</div>
+<div class="l_nothing_tip">
+  <img src="../images/zanwuneirong@3x.png" alt="">
+  <i class="l_marked_words">暂无关注</i>
+</div>
+<script>
+  // variable
+  var loginData = get('loginData');
+  var status = '0';
+  var $flex = $('.l_flex_item');
+  var $nothing = $('.l_nothing_tip');
+  var $markedWords = $('.l_marked_words');
+  var pageIndex = 1;
+  var end;
+  
+  // init mui
+  mui.init({
+    pullRefresh: {
+      container: '#pullrefresh',
+      down: {
+        callback: pulldownRefresh
+      },
+      up: {
+        contentrefresh: '正在加载...',
+        callback: pullupRefresh
+      }
+    }
+  });
+  
+  // For the first time to load
+  ajaxMethod(1);
+  
+  // method
+  function pulldownRefresh() {
+    mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+  }
+  function pullupRefresh() {
+    pageIndex ++;
+    if (end === true) {
+      this.endPullupToRefresh(true);
+      
+    } else {
+      ajaxMethod(pageIndex);
+      mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+      
+    }
+  }
+  
+  // init status
+  $flex.removeClass('hover');
+  $flex.eq(status).addClass('hover');
+  
+  // toggle switch
+  $flex.on('click', function () {
+    // overwriting the value of status
+    status = $(this).attr('data-val');
+    
+    if (status === '0') {
+      ajaxMethod(1);
+    } else {
+      //
+    }
+    $flex.removeClass('focus');
+    $(this).addClass('focus');
+  });
+  
+  // get data ajax
+  function ajaxMethod (page) {
+    $.ajax({
+      url:AjaxUrl + 'CollectionList',
+      type:'POST',
+      dataType:'json',
+      data:{
+        'i_ui_identifier': loginData.data.i_ui_identifier,
+        'password': loginData.data.password,
+        'CurrentPage': page,
+        'PageSize': 10
+      },
+      success: function(data) {
+        
+        var html = '',
+          dataARR = data.data,
+          dataLength = data.data.length;
+        
+        if (dataLength === 0) {
+          end = true;
+        }
+        
+        for (var i = 0; i < dataLength; i++) {
+          var imagesArr = dataARR[i].images_array.split(",");
+          console.log(imagesArr,43)
+          if (dataARR[i].type == '1' && imagesArr.length == '0'){ //文章且图片数量为0
+            html += '<li class="title_href" data-id="'+dataARR[i].mi_id+'">'
+              +      '<a href="#">'
+              +         '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +          '<div class="l_msg_below">'
+              +          (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +          '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +      '</div>'
+              +      '</a>'
+              +   '</li>'
+          }else if (dataARR[i].type == '1' && imagesArr.length > '0' && imagesArr.length < '3'){ //文章且图片数量为大于0小于3
+            html += '<li class="title_href" data-id="'+dataARR[i].mi_id+'">'
+              +      '<a href="#">'
+              +          '<div class="l_lf_word">'
+              +          '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +          '<div class="l_msg_below">'
+              +          (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +              '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +          '</div>'
+              +       '</div>'
+              +       '<img class="fr l_alone_pic" src="'+WebUrl+imagesArr[0]+'" alt="">'
+              +      '</a>'
+              +   '</li>'
+          } else if (dataARR[i].type == '1' && imagesArr.length > '2'){ //文章且图片数量为大于2
+            html += '<li class="title_href" data-id="'+dataARR[i].mi_id+'">'
+              +      '<a href="">'
+              +          '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +       '<ul class="l_pic_pro">'
+              +            '<li><img src="'+WebUrl+imagesArr[0]+'" alt=""></li>'
+              +            '<li><img src="'+WebUrl+imagesArr[1]+'" alt=""></li>'
+              +            '<li><img src="'+WebUrl+imagesArr[2]+'" alt=""></li>'
+              +       '</ul>'
+              +          '<div class="l_msg_below">'
+              +              (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +              '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +          '</div>'
+              +       '</a>'
+              +   '</li>'
+          } else if (dataARR[i].type == '3'){ //视频
+            html += '<li>'
+              +      '<a href="" class="video_href" data-id="'+dataARR[i].mi_id+'">'
+              +          '<div class="l_vedio_frame">'
+              +              '<h2 class="l_vedio_tit ellipsis">'+dataARR[i].title+'</h2>'
+              +              '<em class="l_vedio_time">'+dataARR[i].bofangNum+'</em>'
+              +              '<img src="'+WebUrl+imagesArr[0]+'"'+' class="l_vedio_bg" >'
+              +              '<img src="../images/bofang@3x.png" class="l_vedio_play">'
+              +              '<span class="l_vedio_long">'+dataARR[i].nvc_file_length+'</span>'
+              +          '</div>'
+              +       '</a>'
+              +       '<div class="l_msg_below">'
+              +           (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +           '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +           '<span class="l_bottom_func mgnone" data-id="'+dataARR[i].mi_id+'" data-isCollect="'+dataARR[i].isCollect+'"><img src="../images/'+(dataARR[i].isCollect ==  false ? 'shoucang@3x.png' : 'yishoucang@3x.png')+'" alt=""></span>'
+              +           '<span class="l_bottom_func z_index_comments" data-id="'+dataARR[i].mi_id+'"><img src="../images/bianji@3x.png" alt=""> <i>'+dataARR[i].pinglunNum+'</i></span>'
+              +           '<span class="l_bottom_func z_index_praise" data-id="'+dataARR[i].mi_id+'" data-isPraise="'+dataARR[i].isPraise+'"><img src="../images/'+(dataARR[i].isPraise ==  false ? 'zan@3x.png' : 'zan1@3x.png')+'" alt=""> <i>'+dataARR[i].dianzanNum+'</i></span>'
+              +       '</div>'
+              +   '</li>'
+          } else if (dataARR[i].type == '4'){ //专题
+            html += '<li class="project_href" data-id="'+dataARR[i].source+'">'
+              +      '<a href="">'
+              +          '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +          '<div class="l_msg_below">'
+              +          '<span class="l_stick">专题</span>'
+              +           '<time>'+dataARR[i].time+'</time>'
+              +       '</div>'
+              +       '</a>'
+              +   '</li>'
+          }
+          
+        }
+        if (Number(page) === 1) {
+          // without data tip
+          if (dataLength === 0) {
+            $("#pullrefresh").hide();
+            $nothing.show();
+            $markedWords.text('暂无收藏');
+          } else {
+            $("#pullrefresh").show();
+            $nothing.hide();
+          }
+          
+          $('#company_list').empty().append(html);
+        } else {
+          $('#company_list').append(html);
+        }
+      }
+    })
+  }
+  
+  //
+  
+  mui("#company_list").on('tap','.l_msg_below .mgnone',function () {
+    var iscollect = $(this).attr('data-iscollect'),
+      $this = $(this);
+    dataId = $(this).attr('data-id');
+    
+    if (iscollect == 'true'){
+      $.ajax({
+        url:AjaxUrl+'CancelCollect',
+        type:'POST',
+        dataType:'json',
+        data:{
+          'i_ui_identifier':loginData.data.i_ui_identifier,
+          'password':loginData.data.password,
+          'mi_id':dataId
+        },
+        success: function(data){
+          if(data.status=="success"){
+            $this.attr('data-iscollect','false');
+            $this.find('img').attr('src','../images/shoucang@3x.png');
+            $(".b-msg").html(data.Msg).show().delay(2000).fadeOut();
+            location.reload();
+          }else{
+            $(".b-msg").html(data.Msg).show().delay(2000).fadeOut()
+          }
+        }
+      })
+    }else {
+      $.ajax({
+        url:AjaxUrl+'CollectionInfo',
+        type:'POST',
+        dataType:'json',
+        data:{
+          'i_ui_identifier':dataUser.data.i_ui_identifier,
+          'password':dataUser.data.password,
+          'mi_id':dataId,
+          'sourse':2
+        },
+        success: function(data){
+          console.log(data)
+          if(data.status=="success"){
+            $this.attr('data-iscollect','true');
+            $this.find('img').attr('src','../images/yishoucang@3x.png');
+            $(".b-msg").html(data.Msg).show().delay(2000).fadeOut()
+          }else{
+            $(".b-msg").html(data.Msg).show().delay(2000).fadeOut()
+          }
+        }
+      })
+    }
+    
+  });
+</script>
+</body>
+</html>

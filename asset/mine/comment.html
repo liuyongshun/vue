@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no" />
+  <title>评论</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/mui.css">
+  <script src="../js/commen.js"></script>
+  <script src="../js/jquery-1.9.1.js"></script>
+  <script src="../js/mui.min.js"></script>
+  <script src="../js/rem.js"></script>
+</head>
+<body style="background-color: #fff">
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="">
+  <div class="mui-scroll">
+    <ul class="l_comment_list mui-table-view mui-table-view-striped mui-table-view-condensed" style="background-color: #f8f8fa">
+      <!--<li>-->
+        <!--<h2 class="l_comment_content">-->
+          <!--<span class="l_limit_com ellipsis">"共和共和共和共和共和共和共和共和共和共和共和共和共和共和"</span>-->
+          <!--<time class="fr">2017-11-11</time>-->
+        <!--</h2>-->
+        <!--<div class="l_list_detail">-->
+          <!--<img class="l_list_pic" src="../images/zzzz.png" alt="">-->
+          <!--<div class="l_list_word elli">共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和</div>-->
+        <!--</div>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<h2 class="l_comment_content">-->
+          <!--<span class="l_limit_com ellipsis">"共和共和共和共和共和共和共和共和共和共和共和共和共和共和"</span>-->
+          <!--<time class="fr">2017-11-11</time>-->
+        <!--</h2>-->
+        <!--<div class="l_list_detail">-->
+          <!--<img class="l_list_pic" src="../images/zzzz.png" alt="">-->
+          <!--<div class="l_list_word elli">共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和共和</div>-->
+        <!--</div>-->
+      <!--</li>-->
+    </ul>
+  </div>
+</div>
+<div class="l_nothing_tip">
+  <img src="../images/zanwuneirong@3x.png" alt="">
+  <i class="l_marked_words">暂无评论</i>
+</div>
+<script>
+  // variable
+  var loginData = get('loginData');
+  var $comment = $('.l_comment_list');
+  var $nothing = $('.l_nothing_tip');
+  var pageIndex = 1;
+  var total;
+  
+  // init mui
+  mui.init({
+    pullRefresh: {
+      container: '#pullrefresh',
+      down: {
+        callback: pulldownRefresh
+      },
+      up: {
+        contentrefresh: '正在加载...',
+        callback: pullupRefresh
+      }
+    }
+  });
+  
+  // For the first time to load
+  ajaxMethod(1);
+  
+  // method
+  function pulldownRefresh() {
+    mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+  }
+  function pullupRefresh() {
+    pageIndex ++;
+    if (pageIndex > total) {
+      this.endPullupToRefresh(true);
+      
+    } else {
+      ajaxMethod(pageIndex, apiParam(status));
+      mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+      
+    }
+  }
+  
+  // toggle switch
+  $comment.on('click', 'li', function () {
+    // overwriting the value of status
+    status = $(this).attr('data-val');
+    
+    $('.l_flex_item').removeClass('hover');
+    $(this).addClass('hover');
+    
+    ajaxMethod(1);
+  });
+  
+  // get data ajax
+  function ajaxMethod (page) {
+    $.ajax({
+      url:AjaxUrl + 'AssessRecordList',
+      type:'POST',
+      dataType:'json',
+      data:{
+        'i_ui_identifier': loginData.data.i_ui_identifier,
+        'password': loginData.data.password,
+        'CurrentPage': page,
+        'PageSize': '10'
+      },
+      success: function(data) {
+////        console.log(data)
+//        var data = {
+//          "status":"success",
+//          "Msg":"",
+//          "data":[
+//            {
+//              "content":"pfgdfhfdhgfhfghl",//评论内容
+//              "time":"2017-11-11",//评论时间
+//              "mi_id":1,//资讯id
+//              "title":"czc电风扇等各个环节x",//标题
+//              "images_array":"../images/zzzz.png"//图片
+//            },
+//            {
+//              "content":"pfgdfhfdhgfhfghl",//评论内容
+//              "time":"2017-11-11",//评论时间
+//              "mi_id":1,//资讯id
+//              "title":"czc电风扇等各个环节x",//标题
+//              "images_array":"../images/zzzz.png"//图片
+//            }
+//          ],
+//          "isEnd":false,
+//          "tatalCount":0
+//        }
+        var userData = data.data;
+        var length = userData.length;
+        var html = '';
+//
+//        // pullup load page
+        total = Math.ceil(data.tatalCount / 10);
+        
+        if (length === 0) {
+          $nothing.show();
+          
+        } else {
+          $nothing.hide();
+          
+          for (var i = 0; i < length; i ++) {
+            html += '<li> <h2 class="l_comment_content"> <span class="l_limit_com ellipsis">'
+              + userData[i].content
+              +'</span> <time class="fr">'
+              + userData[i].time
+              + '</time> </h2> <div class="l_list_detail"> <img class="l_list_pic" src="'
+              + userData[i].images_array
+              + '" alt=""> <div class="l_list_word elli">'
+              + userData[i].title
+              + '</div> </div> </li>'
+          }
+          
+          if (page === 1) {
+            $comment.empty().append(html);
+            return false;
+          }
+  
+          $comment.append(html);
+        }
+      }
+    })
+  }
+</script>
+</body>
+</html>

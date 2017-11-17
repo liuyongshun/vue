@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no"/>
+  <title>意见反馈</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-1.9.1.js"></script>
+  <script src="../js/commen.js"></script>
+  <script src="../js/rem.js"></script>
+  <script src="../js/template-web.js"></script>
+</head>
+
+<body style="background-color: #fff">
+<!-- feedback start -->
+<h3 class="l_contact_customer">如有问题请致电官方客服 <a href="03155929990" class="color-red">0315-5929990</a></h3>
+<h3 class="l_contact_customer" style="padding: 0.28rem 0.2rem 0.16rem"><span class="color-red">*</span>问题描述</h3>
+<div class="l_relate_box">
+  <textarea id="question" class="l_text_area" placeholder="请告诉我们您的意见和反馈，帮助我们改进和提高，以此来提高您的使用体验。"></textarea>
+</div>
+<!--<ul class="l_tab_list ">-->
+<!--<li class="l_list_cell l_bor_before">-->
+<!--<span class="color-red">* </span>姓名：<input id="user" class="l_profile_input" type="text" placeholder="">-->
+<!--</li>-->
+<!--<li class="l_list_cell">-->
+<!--<span class="color-red">* </span>联系电话：<input id="mobile" class="l_profile_input" type="text" placeholder="">-->
+<!--</li>-->
+<!--</ul>-->
+<div class="j_login" style="margin-bottom: 0.8rem">
+  <input id="save" type="button" value="保存" class="b_mom_btn">
+</div>
+<div class="b_reminder-msg"><div class="b-msg"></div></div>
+<div class="l_show_login_msg"></div>
+<!-- feedback fend -->
+<script>
+  var loginData = get('loginData');
+  var $msg = $(".b-msg");
+  
+  $('.b_mom_btn').on('click', function () {
+    var feedback = $("#question").val();
+    
+    $.ajax({
+      url: AjaxUrl + 'CreateFeedBack',
+      type: 'POST',
+      dataType: 'json',
+      data:{
+        'i_ui_identifier': loginData.data.i_ui_identifier,
+        'password': loginData.data.password,
+        'is_voice': 'false',
+        'content': feedback,
+        'i_login_resourse': '1'
+      },
+      success: function(data){
+
+        if (data.status === 'success') {
+          $msg.empty();
+          $msg.html(data.Msg).show().delay(2000).fadeOut();
+          setTimeout(function () {
+            location.href = 'user-index.html';
+          },1000)
+        }
+        
+      }
+    })
+  })
+</script>
+</body>
+</html>

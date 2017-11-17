@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no" />
+  <title>陶瓷快讯</title>
+  <link rel="stylesheet" href="../css/mui.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="../js/rem.js"></script>
+  <script type="text/javascript" src="../js/commen.js"></script>
+</head>
+<body>
+<div class="l_mask"></div>
+
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+  <div class="mui-scroll">
+    <ul id="company_list" class="mui-table-view mui-table-view-striped mui-table-view-condensed l_list_pub pdtp24"
+        style="background-color: #f3f4f6;">
+    
+    </ul>
+  </div>
+</div>
+
+<div class="b-msg"></div>
+<div class="l_mask_edit">
+  <div class="l_operator">
+    <div class="l_sub" id="delete" style="background-color: #e43a3d;">删除</div>
+    <div class="l_sub" id="deleteAll" style="background-color: #e43a3d;">全部删除</div>
+  </div>
+</div>
+<div class="l_nothing_tip">
+  <img src="../images/zanwuneirong@3x.png" alt="">
+  <i class="l_marked_words"></i>
+</div>
+<script src="../js/mui.min.js"></script>
+<script type="text/javascript">
+  var loginData = get('loginData');
+  var totalPageCount,
+    pageIndex = 1;
+  var vessel;
+  var allID = '';
+  var $nothing = $('.l_nothing_tip');
+  var $markedWords = $('.l_marked_words');
+  /**
+   * **********|*********** 列表加载 **************
+   */
+  //列表下拉刷新、上拉加载初始化
+  mui.init({
+    gestureConfig:{longtap:true},
+    pullRefresh: {
+      container: '#pullrefresh',
+      down: {
+        callback: pulldownRefresh
+      },
+      up: {
+        contentrefresh: '正在加载...',
+        callback: pullupRefresh
+      }
+    }
+  });
+  //获取加载容器
+  function pulldownRefresh() {
+    mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+  }
+  //分页加载方法
+  function pullupRefresh() {
+    pageIndex++;
+    if (pageIndex > totalPageCount) {
+      this.endPullupToRefresh(true);
+    } else {
+      publicAjax(pageIndex);
+      mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+    }
+  }
+  
+  //筛选请求data
+  function publicAjax(page) {
+    
+    $.ajax({
+      url: AjaxUrl + 'ReadHistoryList',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        'i_ui_identifier': loginData.data.i_ui_identifier,//频道id
+        'password': loginData.data.password,//是否热点：1代表是
+        'CurrentPage': page,//产区
+        'PageSize': '10'//用户id
+      },
+      success: function (data) {
+        
+        var html = '',
+          dataARR = data.data,
+          dataLength = data.data.length;
+        
+        var tempVessel = '';
+        for (var i = 0; i < dataLength; i ++) {
+          tempVessel += dataARR[i].mi_id + ',';
+        }
+        allID = tempVessel.trim().replace(/^,|,+$/g, '');
+        console.log(allID)
+        
+        for (var i = 0; i < dataLength; i++) {
+          var imagesArr = dataARR[i].images_array.split(",");
+          if (dataARR[i].type == '1' && imagesArr.length == '0'){ //文章且图片数量为0
+            html += '<li class="title_href" data-id="'+dataARR[i].mi_id+'">'
+              +      '<a href="#">'
+              +         '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +          '<div class="l_msg_below">'
+              +          (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +          '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +      '</div>'
+              +      '</a>'
+              +   '</li>'
+          }else if (dataARR[i].type == '1' && imagesArr.length > '0' && imagesArr.length < '3'){ //文章且图片数量为大于0小于3
+            html += '<li class="title_href" data-id="'+dataARR[i].mi_id+'">'
+              +      '<a href="#">'
+              +          '<div class="l_lf_word">'
+              +          '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +          '<div class="l_msg_below">'
+              +          (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +              '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +          '</div>'
+              +       '</div>'
+              +       '<img class="fr l_alone_pic" src="'+WebUrl+imagesArr[0]+'" alt="">'
+              +      '</a>'
+              +   '</li>'
+          } else if (dataARR[i].type == '1' && imagesArr.length > '2'){ //文章且图片数量为大于2
+            html += '<li class="title_href" data-id="'+dataARR[i].mi_id+'">'
+              +      '<a href="">'
+              +          '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +       '<ul class="l_pic_pro">'
+              +            '<li><img src="'+WebUrl+imagesArr[0]+'" alt=""></li>'
+              +            '<li><img src="'+WebUrl+imagesArr[1]+'" alt=""></li>'
+              +            '<li><img src="'+WebUrl+imagesArr[2]+'" alt=""></li>'
+              +       '</ul>'
+              +          '<div class="l_msg_below">'
+              +              (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +              '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +          '</div>'
+              +       '</a>'
+              +   '</li>'
+          } else if (dataARR[i].type == '3'){ //视频
+            html += '<li>'
+              +      '<a href="" class="video_href" data-id="'+dataARR[i].mi_id+'">'
+              +          '<div class="l_vedio_frame">'
+              +              '<h2 class="l_vedio_tit ellipsis">'+dataARR[i].title+'</h2>'
+              +              '<em class="l_vedio_time">'+dataARR[i].bofangNum+'</em>'
+              +              '<img src="'+WebUrl+imagesArr[0]+'"'+' class="l_vedio_bg" >'
+              +              '<img src="../images/bofang@3x.png" class="l_vedio_play">'
+              +              '<span class="l_vedio_long">'+dataARR[i].nvc_file_length+'</span>'
+              +          '</div>'
+              +       '</a>'
+              +       '<div class="l_msg_below">'
+              +           (dataARR[i].zhiding == '1' ? '<span class="l_stick">置顶</span>' : '')
+              +           '<time>'+dataARR[i].source+' '+dataARR[i].time+'</time>'
+              +           '<span class="l_bottom_func mgnone" data-id="'+dataARR[i].mi_id+'" data-isCollect="'+dataARR[i].isCollect+'"><img src="./images/'+(dataARR[i].isCollect ==  false ? 'shoucang@3x.png' : 'yishoucang@3x.png')+'" alt=""></span>'
+              +           '<span class="l_bottom_func z_index_comments" data-id="'+dataARR[i].mi_id+'"><img src="../images/bianji@3x.png" alt=""> <i>'+dataARR[i].pinglunNum+'</i></span>'
+              +           '<span class="l_bottom_func z_index_praise" data-id="'+dataARR[i].mi_id+'" data-isPraise="'+dataARR[i].isPraise+'"><img src="../images/'+(dataARR[i].isPraise ==  false ? 'zan@3x.png' : 'zan1@3x.png')+'" alt=""> <i>'+dataARR[i].dianzanNum+'</i></span>'
+              +       '</div>'
+              +   '</li>'
+          } else if (dataARR[i].type == '4'){ //专题
+            html += '<li class="project_href" data-id="'+dataARR[i].source+'">'
+              +      '<a href="">'
+              +          '<h3 class="l_list_tit ellipsis">'+dataARR[i].title+'</h3>'
+              +          '<div class="l_msg_below">'
+              +          '<span class="l_stick">专题</span>'
+              +           '<time>'+dataARR[i].time+'</time>'
+              +       '</div>'
+              +       '</a>'
+              +   '</li>'
+          }
+          
+        }
+        if (data.data.length === 0) {
+          $("#pullrefresh").hide();
+          $(".z_ser_none").show();
+          
+        } else {
+          $("#pullrefresh").show();
+          $(".z_ser_none").hide();
+          
+          if (Number(page) === 1) {
+            // without data tip
+            if (length === 0) {
+              $nothing.show();
+              $markedWords.text('暂无历史');
+              $('#pullrefresh').hide();
+            }
+            
+            totalPageCount = Math.ceil(data.tatalCount / 20);
+            $('#company_list').empty().append(html);
+          } else {
+            $('#company_list').append(html);
+          }
+        }
+        
+      }
+    });
+  }
+  //，默认加载第一页
+  publicAjax(1);
+  
+  // longtap event
+  mui('#company_list').on('longtap', 'li', function () {
+    
+    vessel = $(this).attr('data-id');
+    console.log(vessel)
+    $('.l_mask_edit').show();
+    document.body.style.overflow = 'hidden';
+    
+  });
+  // close
+  $('.l_mask_edit').on('click', function () {
+    document.body.style.overflow = '';
+    $('.l_mask_edit').hide();
+  });
+
+  // delete
+  $('#delete').on('click', function (e) {
+    e.stopPropagation();
+    
+    $.ajax({
+      url: AjaxUrl + 'RemoveReadHistory',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        'i_ui_identifier': loginData.data.i_ui_identifier,
+        'password': loginData.data.password,
+        'mi_id': vessel
+      },
+      success: function (data) {
+        location.reload(true);
+      }
+    });
+  });
+  // delete all
+  $('#deleteAll').on('click', function (e) {
+    e.stopPropagation();
+  
+    $.ajax({
+      url: AjaxUrl + 'RemoveReadHistory',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        'i_ui_identifier': loginData.data.i_ui_identifier,
+        'password': loginData.data.password,
+        'mi_id': vessel
+      },
+      success: function (data) {
+        location.reload(true);
+      }
+    });
+  });
+</script>
+</body>
+</html>
