@@ -5,7 +5,7 @@ module.exports = {
   entry: "./app/entry",
   // array : 两个入口文件，最后合并输出为一个文件。
   entry: ["./app/entry1", "./app/entry2"], 
-  // object: 两个入口文件，最后输出两个文件。
+  // object: 两个入口文件，最后输出两个文件。两个文件输出hash时（filename: "[hash].js",），会提示错误，因为会重名。所以多个输出应该（filename: "[name]-[hash].js",）
   entry: {
     a: "./app/entry-a",
     b: ["./app/entry-b1", "./app/entry-b2"]
@@ -25,10 +25,14 @@ module.exports = {
      * 3. 哈希值输出
      */
     filename: "bundle.js",
+    // 本次webpack打包的hash值。
+    filename: "[hash].js",
     filename: "[name].js",
+    // 每一个chunk的hash,产生多个输出文件时的文件都带有hash，并且只有文件改变后打包hash才改变。不能与--hot热更新一起使用。可以用hash。
     filename: "[chunkhash].js",
 
     // 该路径会指定webpackDevServer的监听路径，引用时可能是：<link href="/assets/spinner.gif" />
+    // 指定一个路径，一般是上线环境的路径。例如：http://cheatlys.info/
     publicPath: "/assets/",
 
     // the filename template for additional chunks

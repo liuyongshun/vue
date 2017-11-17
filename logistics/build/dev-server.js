@@ -1,6 +1,8 @@
 require('./check-versions')()
 
 var config = require('../config')
+const proxy = require('http-proxy-middleware')
+const apiProxy = proxy('/api', { target: 'http://localhost:80',changeOrigin: true });
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
@@ -20,7 +22,6 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
-
 var app = express()
 var compiler = webpack(webpackConfig)
 
@@ -33,6 +34,9 @@ var hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {},
   heartbeat: 2000
 })
+
+app.use('/api/*', apiProxy);
+
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', function (compilation) {
   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
@@ -45,8 +49,10 @@ compiler.plugin('compilation', function (compilation) {
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
   if (typeof options === 'string') {
+    console.log(333)
     options = { target: options }
   }
+  console.log(options.filter)
   app.use(proxyMiddleware(options.filter || context, options))
 })
 

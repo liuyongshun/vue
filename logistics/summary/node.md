@@ -74,6 +74,22 @@ exports.f = ...
 
 一个新的值被赋值给 exports，它就不再绑定到 module.exports
 exports = { hello: false };  // 不导出，只在模块内有效
+module.exports = { hello: false };  // 可以正常导出，所以尽量不要简写
+
+// fu 是被挂在到exports上的属性。在下一个函数中依然可以调用访问。
+
+exports.fu = function () {
+  return {
+    naem: 3
+  }
+}
+function zz () {
+  var dl = exports.fu();
+  console.log(dl)
+}
+
+zz()
+
 ```
 
 #### `module`不是全局的，而是每个模块本地的。
@@ -135,6 +151,11 @@ console.log(process.env.foo);
 // process.env中新增一个属性，会将属性值转换成字符串
 process.env.test = null;
 console.log(process.env.test);  // 'null'
+
+WINDOW下设置环境变量process.env 
+cmd中： set NODE_ENV=production;
+这样process.env.NODE_ENV 就是production
+
 ```
 
 其他全局：
