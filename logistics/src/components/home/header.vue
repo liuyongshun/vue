@@ -35,25 +35,25 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   .b_search
-    background: url(images/bj.png) no-repeat;
-    background-size: 100%;
-    height: 3.57rem;
-    padding: 0.6rem 20px 0px;
+    background: url(asset/bj.png) no-repeat
+    background-size: 100%
+    height: 3.57rem
+    padding: 0.6rem 20px 0
   .b_search_content {
-    width: 100%;
-    height: 0.72rem;
-    line-height: 0.72rem;
-    background: url("images/search_icon.png") no-repeat 2rem .22rem/0.28rem 0.28rem #ffffff;
-    border-radius: 5px;
-    text-align: center;
-    color: #8f8f8f;
-    font-size: 0.28rem;
+    width: 100%
+    height: 0.72rem
+    line-height: 0.72rem
+    background: url("asset/search_icon.png") no-repeat 2rem .22rem/0.28rem 0.28rem #ffffff
+    border-radius: 5px
+    text-align: center
+    color: #8f8f8f
+    font-size: 0.28rem
   }
   .l_home_tit
-    margin-bottom: 1.48rem;
-    font-size: .44rem;
-    text-align: center;
-    line-height: 100%;
-    color: #fff;
+    margin-bottom: 1.48rem
+    font-size: .44rem
+    text-align: center
+    line-height: 100%
+    color: #fff
 
 </style>
