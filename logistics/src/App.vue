@@ -122,15 +122,15 @@
     left: 0
 
   .j_foot-nav
-  box-sizing: border-box
-  width: 100%
-  padding: 0.1rem 0
-  border-top: 1px solid #e4e0d9
-  position: fixed
-  z-index: 2
-  bottom: 0
-  left: 0
-  background: #fff
+    box-sizing: border-box
+    width: 100%
+    padding: 0.1rem 0
+    border-top: 1px solid #e4e0d9
+    position: fixed
+    z-index: 2
+    bottom: 0
+    left: 0
+    background: #fff
 
   .foot-navli
     width: 100%
