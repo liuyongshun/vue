@@ -1,26 +1,10 @@
 <template>
   <div id="app">
-    <div class="b_search">
-      <h1 class="l_home_tit">物流营口<img src="" alt=""></h1>
-      <div id="listA" class="b_search_content">请输入关键字</div>
-    </div>
-    <v-list></v-list>
-    <div class="l_nav_flex">
-      <router-link to="/" tag="div" exact="true" class="l_flex_item">
-        <span>货源交易</span>
-      </router-link>
-      <router-link to="/deal" tag="div" class="l_flex_item l_wire">
-        <span>货源交易</span>
-      </router-link>
-      <router-link to="/rent" tag="div" class="l_flex_item">
-        <span>货源交易</span>
-      </router-link>
-    </div>
     <router-view></router-view>
     <div class="j_foot-nav">
       <ul class="foot-navli">
         <li class="now">
-          <a href=""><img src="./asset/shouye@3x.png"/><br>首页</a>
+          <router-link to="/" tag="a" exact="true"><img src="./asset/shouye@3x.png"/><br>首页</router-link>
         </li>
         <li>
           <a href=""><img src="./asset/shipin@3x.png"/><br>地图</a>
@@ -39,12 +23,12 @@
   </div>
 </template>
 
-<script >
-  import list from './components/listNav/list.vue'
+<script type="text/ecmascript-6">
+  // import list from './components/listNav/list.vue'
 
   export default {
     components: {
-      'v-list': list
+      // 'v-list': list
     }
   }
 </script>
@@ -78,7 +62,7 @@
     text-align: center
     line-height: 100%
     color: #fff
-// tab
+
   .l_nav_flex
     display: -webkit-box
     -webkit-box-align: center
@@ -122,15 +106,15 @@
     left: 0
 
   .j_foot-nav
-  box-sizing: border-box
-  width: 100%
-  padding: 0.1rem 0
-  border-top: 1px solid #e4e0d9
-  position: fixed
-  z-index: 2
-  bottom: 0
-  left: 0
-  background: #fff
+    box-sizing: border-box
+    width: 100%
+    padding: 0.1rem 0
+    border-top: 1px solid #e4e0d9
+    position: fixed
+    z-index: 2
+    bottom: 0
+    left: 0
+    background: #fff
 
   .foot-navli
     width: 100%

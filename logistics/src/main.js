@@ -45,4 +45,5 @@ const app = new Vue({
   router,
   template: '<App/>',
   components: { App }
-}).$mount('#app')
+})
+app.$mount('#app')

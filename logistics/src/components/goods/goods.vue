@@ -5,11 +5,16 @@
     <li class="l_list_cell ellipsis"><img class="l_path_address" src="./qidian.png" alt=""> 辽宁省营口市老边区</li><li class="l_list_cell"><span class="l_split ellipsis">重量/体积：<span class="light_gray">3方</span></span><span class="l_split"></span><span class="l_split">期望运价：<span class="orange">电议</span></span></li>
     <li class="l_list_cell">发货时间：<span class="light_gray">2017-11-21</span></li>
   </ul>
+  <v-list></v-list>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {
+  import lists from 'components/listNav/list.vue'
 
+  export default {
+    components: {
+      'v-list': lists
+    }
   }
 </script>
 
