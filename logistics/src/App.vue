@@ -1,10 +1,8 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
     <div class="j_foot-nav">
       <ul class="foot-navli">
         <li class="now">
-          <router-link to="/" tag="a" exact="true"><img src="./asset/shouye@3x.png"/><br>首页</router-link>
+          <a href=""><img src="./asset/shouye@3x.png"/><br>首页</a>
         </li>
         <li>
           <a href=""><img src="./asset/shipin@3x.png"/><br>地图</a>
@@ -20,15 +18,11 @@
         </li>
       </ul>
     </div>
-  </div>
 </template>
 
 <script type="text/ecmascript-6">
-  // import list from './components/listNav/list.vue'
-
   export default {
     components: {
-      // 'v-list': list
     }
   }
 </script>

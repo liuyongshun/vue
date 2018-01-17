@@ -1,15 +1,14 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Hello from '@/components/app'
+import App from '../App'
+// const home = r => require.ensure([], () => r(require('../components/home/home')), 'home')
+import home from '../components/goods/goods'
 
-Vue.use(Router)
-
-export default new Router({
-  routes: [
+export default [{
+  path: '/',
+  component: App, // 顶层路由，对应index.html
+  children: [ // 二级路由。对应App.vue
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
+      path: '/home',
+      component: home
     }
   ]
-})
+}]
