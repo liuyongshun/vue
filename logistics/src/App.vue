@@ -1,28 +1,16 @@
 <template>
-    <div class="j_foot-nav">
-      <ul class="foot-navli">
-        <li class="now">
-          <a href=""><img src="./asset/shouye@3x.png"/><br>首页</a>
-        </li>
-        <li>
-          <a href=""><img src="./asset/shipin@3x.png"/><br>地图</a>
-        </li>
-        <li>
-          <a href=""><img src="./asset/index_bar_release@3x.png"/><br>发布</a>
-        </li>
-        <li>
-          <a href=""><img src="./asset/huikan@3x.png"/><br>物流圈</a>
-        </li>
-        <li>
-          <a href=""><img src="./asset/wode@3x.png"/><br>我的</a>
-        </li>
-      </ul>
-    </div>
+  <div>
+    home
+    <bottomNav></bottomNav>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import bottomNav from './components/bottomNav/bottom-nav'
+
   export default {
     components: {
+      bottomNav
     }
   }
 </script>

@@ -2,19 +2,19 @@
   <div class="j_foot-nav">
     <ul class="foot-navli">
       <li class="now">
-        <a href=""><img src="./shouye@3x.png"/><br>首页</a>
+        <div @click = "gotoAddress('/home')"><img src="./shouye@3x.png"/><br>首页</div>
       </li>
       <li>
-        <a href=""><img src="./shipin@3x.png"/><br>地图</a>
+        <div @click = "gotoAddress('/map')"><img src="./shipin@3x.png"/><br>地图</div>
       </li>
       <li>
-        <a href=""><img src="./index_bar_release@3x.png"/><br>发布</a>
+        <div @click = "gotoAddress('/release')"><img src="./index_bar_release@3x.png"/><br>发布</div>
       </li>
       <li>
-        <a href=""><img src="./huikan@3x.png"/><br>物流圈</a>
+        <div @click = "gotoAddress('/circle')"><img src="./huikan@3x.png"/><br>物流圈</div>
       </li>
       <li>
-        <a href=""><img src="./wode@3x.png"/><br>我的</a>
+        <div @click = "gotoAddress('/mine')"><img src="./wode@3x.png"/><br>我的</div>
       </li>
     </ul>
   </div>
@@ -22,6 +22,22 @@
 
 <script>
   export default {
+    data () {
+      return {
+
+      }
+    },
+    created () {
+
+    },
+    mounted () {
+
+    },
+    methods: {
+      gotoAddress (path) {
+        this.$router.push(path)
+      }
+    }
 
   }
 </script>
