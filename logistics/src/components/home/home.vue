@@ -6,30 +6,30 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import axios from 'axios'
+  // import axios from 'axios'
   export default {
-    data () {
-      return {
-        sell: {}
-      }
-    },
-    created () {
-      axios({
-        method: 'get',
-        url: '/api/aa',
-        responseType: 'json'
-      })
-        .then(function (response) {
-          console.log(response.data)
-        })
-//      fetch('/api/aa').then(function (response) {
-//        return response.json()
-//      }).then(function (data) {
-//        console.log(data)
-//      }).catch(function (e) {
-//        console.log('Oops, error')
-//      })
-    }
+//     data () {
+//       return {
+//         sell: {}
+//       }
+//     },
+//     created () {
+//       axios({
+//         method: 'get',
+//         url: '/api/aa',
+//         responseType: 'json'
+//       })
+//         .then(function (response) {
+//           console.log(response.data)
+//         })
+// //      fetch('/api/aa').then(function (response) {
+// //        return response.json()
+// //      }).then(function (data) {
+// //        console.log(data)
+// //      }).catch(function (e) {
+// //        console.log('Oops, error')
+// //      })
+//     }
   }
 </script>
 
