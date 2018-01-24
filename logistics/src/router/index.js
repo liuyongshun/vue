@@ -1,8 +1,5 @@
 import App from '../App'
-// const home = r => require.ensure([], () => r(require('../components/home/home')), 'home')
-const home = {
-  template: '<div>ssss</div>'
-}
+const home = r => require.ensure([], () => r(require('../components/home/home')), 'home')
 const map = r => require.ensure([], () => r(require('../components/map/map')), 'map')
 const circle = r => require.ensure([], () => r(require('../components/circle/circle')), 'circle')
 const mine = r => require.ensure([], () => r(require('../components/mine/mine')), 'mine')

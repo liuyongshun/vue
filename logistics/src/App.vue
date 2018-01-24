@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <bottomNav></bottomNav>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script type="text/ecmascript-6">
-  import bottomNav from './components/bottomNav/bottom-nav'
+  // import bottomNav from './components/bottomNav/bottom-nav'
 
   export default {
     components: {
-      bottomNav
+      // bottomNav
     }
   }
 </script>
