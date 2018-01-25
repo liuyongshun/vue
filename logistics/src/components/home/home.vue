@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="box">
     <div class="b_search">
-      <h1 class="l_home_tit">物流营口<img src="" alt=""></h1>
+      <h1 class="l_home_tit">物流<img src="" alt=""></h1>
       <div id="listA" class="b_search_content">请输入关键字</div>
     </div>
     <bottom-nav></bottom-nav>
