@@ -18,7 +18,7 @@
         <router-link to="/rent" tag="div">货源交易</router-link>
       </div>
     </div>
-    // 引入的组件被渲染的位置
+    // 引入的组件被渲染的位置（路由出口）
     <router-view></router-view>
 
     // 有时候我们要让激活 class 应用在外层元素
@@ -27,7 +27,7 @@
     </router-link>
 ```
 
-**基础5步：**
+**二、基础5步：**
 
 **main.js**
 ```
@@ -80,4 +80,35 @@ const app = new Vue({
 //   components: { App }
 // })
 // app.$mount('#app')
+```
+
+### 三、将routes分离出去
+
+**在src下，常常会有一个routers/index.js文件，为了便于维护，将路由单独分出来。**
+
+router/index.js
+
+![](http://or0drint7.bkt.clouddn.com/router-vue-index.png)
+
+main.js
+
+![](http://or0drint7.bkt.clouddn.com/vue-main.png)
+
+footer-nav.vue
+
+![](http://or0drint7.bkt.clouddn.com/router-link-html.png)
+
+
+**应用：router-link 会激活两个类名linkActiveClass 和 linkExactActiveClass ，而这两个类名可以用来控制tab切换的当前选中状态**
+
+**问题：初次加载的选中状态**
+
+**上图的router/index.js中的path为空时重定向到/home，而foot-anv.vue中router-link路由到/home，即是首页，这样home的图标和文字被设置为选中（蓝色），如下图**
+
+![](http://or0drint7.bkt.clouddn.com/vue-home.png)
+
+### 四、编程式导航
+
+```
+
 ```

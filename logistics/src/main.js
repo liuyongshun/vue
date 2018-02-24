@@ -54,6 +54,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './router'
+import './common/stylus/index.styl'
+// import axios from 'axios'
+// Vue.prototype.$ajax = axios
 
 Vue.use(VueRouter)
 const router = new VueRouter({

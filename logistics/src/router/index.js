@@ -11,21 +11,25 @@ export default [{
   children: [ // 二级路由。对应App.vue
     {
       path: '',
-      component: home
+      redirect: '/home'
     },
     {
+      name: 'home',
       path: '/home',
       component: home
     },
     {
+      name: 'map',
       path: '/map',
       component: map
     },
     {
+      name: 'mine',
       path: '/mine',
       component: mine
     },
     {
+      name: 'circle',
       path: '/circle',
       component: circle
     }

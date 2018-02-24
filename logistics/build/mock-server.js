@@ -7,6 +7,7 @@ var port = process.env.PORT || 80
 var resDataMethod = require('../routers/routers')
 
 router.get('/aa', resDataMethod.homeList)
+router.get('/bb', resDataMethod.mineList)
 
 app.use('/api', router)
 
