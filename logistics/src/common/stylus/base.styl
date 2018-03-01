@@ -1,10 +1,184 @@
+// layout
 .fl
   float: left
 .fr
   float: right
+// color
+.colorBlue
+  color: #2d9bfa!important
+.colorGray
+  color:#c5c5c5!important
+.colorOrange
+  color: #fe9025!important
+
+// background color
+.bgColorWhite
+  background-color: #fff!important
+.bgColorGray
+  background-color: #c5c5c5!important
+.bgColorBlue
+  background-color: #2d9bfa!important
+.bgColorBlue
+  background-color: #fe9025!important
+
+// buttom
+.j_button-red
+  display: block
+  width: 100%
+  height: 0.8rem
+  font-size: 0.3rem
+  text-align: center
+  line-height: 0.8rem
+  color: #fff
+  background: #2d9bfa
+  border: 0px
+  border-radius: 6px
+
+.j_code-button
+  display: inline-block
+  color: #fe9025
+  background: #fff
+  border: none
+
+// placeholder
+  input::-webkit-input-placeholder
+    color: $colorBaseGray
+  input::-moz-placeholder
+    color:$colorBaseGray
+  input:-moz-placeholder
+    color:$colorBaseGray
+  input:-ms-input-placeholder
+    color:$colorBaseGray
+// common
+.full-screen-bgwhite
+  position: absolute
+  width: 100%
+  top: 0
+  left: 0
+  bottom: 0
+  background-color: #fff
 .router-link-exact-active
-  color: #3da0f7
+  color: $colorBaseBlue
 .ellipsis
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
+.l_tab_list
+  margin-bottom: 0.18rem
+  background-color: $colorBaseWhite
+.l_list_cell
+  box-sizing: border-box
+  width: 100%
+  position: relative
+  padding: 0 0.2rem
+  line-height: 1rem
+  overflow: hidden
+  display: block
+  color: #555555
+.l_list_cell:after
+  position: absolute
+  right: 0
+  bottom: 0
+  left: 0
+  height: 1px
+  content: ''
+  background-color: #e0e0e0
+  -webkit-transform: scaleY(0.5)
+  transform: scaleY(0.5)
+.l_list_cell a
+  display: block
+  color: #555
+  text-decoration: none
+// login & register
+.l_profile_input[type="text"],
+.l_profile_input[type="number"],
+.l_profile_input[type="password"]
+  width: 66%
+  height: auto
+  line-height: 1.2
+  margin: 0
+  color: #c5c5c5
+  border: none
+  padding: 0
+  font-size: 0.28rem
+.j_login
+  width: 90%
+  margin: 0 auto
+  padding-top: 0.66rem
+  overflow: hidden
+.l_login_related
+  float: right
+
+.l_login_related > a
+  position: relative
+  margin-left: 0.2rem
+  color: #555
+
+.l_login_related > a:first-child:after
+  display: block
+  content: ''
+  position: absolute
+  top: 3px
+  right: -0.16rem
+  bottom: 2px
+  width: 1px
+  background-color: #555
+.l_tab_list.l_login_identifier
+  margin: 0.1rem auto 0.34rem
+  border: 1px solid #e0e0e0
+  border-radius: 6px
+
+.l_login_identifier
+  li
+    line-height: 0.9rem
+
+.l_login_identifier
+  li > input
+    width: 87%
+    line-height: 0.87rem
+    border: none
+
+.l_login_identifier
+  li:last-child:after
+    display: none
+
+.l_login_identifier
+  li > img
+    width: 0.36rem
+    vertical-align: -3px
+.l_tip_content
+  padding: 0.2rem
+  color: #fe8d14
+
+// dialog
+.popups-bak
+  background-color: #595858
+  opacity: 0.5
+  position: absolute
+  top: 0
+  left: 0
+  bottom: 0
+  width: 100%
+  z-index: 2
+.popups
+  position: absolute
+  width: 80%
+  left: 50%
+  top: 40%
+  z-index: 2
+  margin-left: -40%
+  background: #fff
+  border-radius: 0.1rem
+.poup-title
+  font-weight: bold
+  font-size: 0.3rem
+  line-height: 0.5rem
+  text-indent: 0.2rem
+  padding: 0.1rem 0
+.poup-words
+  padding: 0.2rem
+.poup-a
+  text-align: right
+  padding: 0.1rem 0.2rem 0.2rem
+.poup-a span
+  margin-right: 0.4rem

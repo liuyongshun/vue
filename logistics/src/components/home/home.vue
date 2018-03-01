@@ -21,12 +21,10 @@
       </div>
     </div>
     <div class="l_nav_flex">
-      <div class="l_flex_item hover"><span>货源</span></div>
-      <div class="l_flex_item l_wire"><span>运力</span></div>
-      <div class="l_flex_item"><span>出租</span></div>
+      <div class="l_flex_item" :class="{hover: active === index, l_wire: index === 1}" v-for="(navItem, index) of tabs" @click="switchTab(navItem.api, index)"><span>{{navItem.des}}</span></div>
     </div>
     <section id="company_list">
-      <ul class="l_tab_list" v-for="item in results" v-bind:identify="item.id">
+      <ul class="l_tab_list" v-for="item in results" :key="item.id">
         <li class="l_list_cell pdleft"><span class="fl">{{item.goodsName}}</span><span class="fr">{{item.unit}}吨</span></li>
         <li class="l_list_cell ellipsis">
           <img class="l_path_address" src="./qidian.png" alt="">
@@ -45,6 +43,9 @@
           发车时间：
           <span class="light_gray">{{item.departTime}}</span>
         </li>
+        <li class="l_list_cell" v-if="item.justShowForA">{{item.justShowForA}}</li>
+        <li class="l_list_cell" v-if="item.justShowForB">{{item.justShowForB}}</li>
+        <li class="l_list_cell" v-if="item.justShowForC">{{item.justShowForC}}</li>
       </ul>
     </section>
     <bottom-nav></bottom-nav>
@@ -62,7 +63,22 @@
     data () {
       return {
         sell: {},
-        results: []
+        results: [],
+        active: 0,
+        tabs: [
+          {
+            api: '/api/aa',
+            des: '货源'
+          },
+          {
+            api: '/api/bb',
+            des: '运力'
+          },
+          {
+            api: '/api/cc',
+            des: '出租'
+          }
+        ]
       }
     },
     mounted () {
@@ -75,14 +91,21 @@
         .then(function (response) {
           that.results = response.data.data.list
         })
-      // axios({
-      //   method: 'get',
-      //   url: '/api/aa',
-      //   responseType: 'json'
-      // })
-      //   .then(function (response) {
-      //     this.result = response.data
-      //   })
+    },
+    methods: {
+      switchTab (url, index) {
+        let that = this
+        // tab nav index
+        this.active = index
+        axios({
+          method: 'get',
+          url: url,
+          responseType: 'json'
+        })
+          .then(function (response) {
+            that.results = response.data.data.list
+          })
+      }
     },
     created () {
       // fetch('/api/aa').then(function (response) {
@@ -138,32 +161,6 @@
     right: 0
   .l_wire:before
     left: 0
-  .l_tab_list
-    margin-bottom: 0.18rem
-    background-color: #fff
-  .l_list_cell
-    box-sizing: border-box
-    width: 100%
-    position: relative
-    padding: 0 0.2rem
-    line-height: 1rem
-    overflow: hidden
-    display: block
-    color: #555555
-  .l_list_cell:after
-    position: absolute
-    right: 0
-    bottom: 0
-    left: 0
-    height: 1px
-    content: ''
-    background-color: #e0e0e0
-    -webkit-transform: scaleY(0.5)
-    transform: scaleY(0.5)
-  .l_list_cell a
-    display: block
-    color: #555
-    text-decoration: none
   .l_path_address
     width: 0.34rem
     vertical-align: -4px

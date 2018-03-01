@@ -8,6 +8,7 @@ var resDataMethod = require('../routers/routers')
 
 router.get('/aa', resDataMethod.homeList)
 router.get('/bb', resDataMethod.mineList)
+router.get('/cc', resDataMethod.otherList)
 
 app.use('/api', router)
 

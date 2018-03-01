@@ -1,21 +1,14 @@
 <template>
   <div>
     <div class="j_main-body">
-      <div class="l_mine_head">
+      <router-link tag="div" :to=" isLogin ?  {name: 'login'} : {name: 'profile'}" class="l_mine_head">
         <!--<div class="l_msg_tip">-->
         <!--<img class="l_msg_point" src="../images/bydd.png" alt="">-->
         <!--<img class="l_msg_pic" src="../images/xiaoxixx.png" alt="">-->
         <!--</div>-->
         <a href="javascript:;" class="l_user_avator"><img class="avator" src="./zhantingttmr.png" alt=""></a>
         <span class="l_user_name">登录</span>
-      </div>
-      <div class="b_mom_div">
-        <div class="b_nav_type b_nav_company l_font_set" style="">
-          <a href=""><img src="./huola.png">货源交易管理</a>
-          <a href=""><img src="./yunlids.png">运力交易管理</a>
-          <a href=""><img src="./cangshuzf.png">仓储资源管理</a>
-        </div>
-      </div>
+      </router-link>
       <ul class="l_tab_list l_mine">
         <li class="l_list_cell">
           <a href="">
@@ -47,6 +40,11 @@
   export default {
     components: {
       bottomNav
+    },
+    data () {
+      return {
+        isLogin: false
+      }
     }
   }
 </script>

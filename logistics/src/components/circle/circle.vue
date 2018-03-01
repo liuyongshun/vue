@@ -38,10 +38,31 @@
   export default {
     components: {
       bottomNav
+    },
+    mounted () {
+      mui.plusReady(function () {
+        mui.init({
+          pullRefresh: {
+            container: '#pullrefresh',
+            down: {
+              callback: pulldownRefresh
+            },
+            up: {
+              contentrefresh: '正在加载...',
+              callback: pullupRefresh
+            }
+          }
+        })
+        function pulldownRefresh () {
+          mui('#pullrefresh').pullRefresh().endPulldownToRefresh()
+        }
+        function pullupRefresh () {
+          mui('#pullrefresh').pullRefresh().endPullupToRefresh()
+        }
+      })
     }
   }
 </script>
-
 <style lang="stylus" rel="stylesheet/stylus">
   .l_list_show
     overflow: hidden

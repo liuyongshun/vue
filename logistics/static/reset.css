@@ -58,3 +58,11 @@ body , html {
 	width: 100%;
 	height: 100%;
 }
+address,
+cite,
+dfn,
+em,
+var,
+i {
+  font-style: normal;
+}

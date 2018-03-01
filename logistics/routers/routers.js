@@ -7,9 +7,17 @@ module.exports.homeList = (req, res) => {
     data: db.homeData
   })
 }
+
 module.exports.mineList = (req, res) => {
   res.json({
     errno: 0,
     data: db.mineData
+  })
+}
+
+module.exports.otherList = (req, res) => {
+  res.json({
+    errno: 0,
+    data: db.otherData
   })
 }
