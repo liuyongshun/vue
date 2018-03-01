@@ -1,21 +1,19 @@
-# logistics
+## logistics
 
-> app
+**项目目前正在开发中，尚未完成，因为一个人在做，所以很多东西是基于之前工作中的内容，仿照原网站进行设计，省去了psd效果图，字段全是自己随机定义，iconfont类图标自己敲定。为了尽可能多的涉及到vue的相关技术，尝试增加交易相关流程。**
 
-## Build Setup
+直接采用了vue-cli脚手架。
 
 ``` bash
-# install dependencies
+# 安装
 npm install
 
-# serve with hot reload at localhost:8080
+# 开发模式
 npm run dev
 
-# build for production with minification
+# 打包
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
+# mock数据,mock.js + http-proxy-middleware + node搭建的后端数据，这里需要单独启动一个命令符（cmd）
+npm run mock
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
