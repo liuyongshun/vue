@@ -68,7 +68,7 @@ document.getElementById('result').innerHTML = `
 
 **上面只是简单的用了字符串拼接，对于模版还可以更深入。**
 
-#### 字符串补全长度的功能（es7）
+#### 4、字符串补全长度的功能（es7）
 
 第一个参数用来指定字符串的最小长度，第二个参数是用来补全的字符串。
 
@@ -77,4 +77,11 @@ document.getElementById('result').innerHTML = `
 console.log('x'.padStart(5, 'ab'));  // 'ababx'
 // padEnd():在结尾处补全
 console.log('x'.padEnd(5, 'ab'));  // 'xabab'
+```
+
+#### 字符串转换为数组
+
+```
+var str = 'hello';
+[...str]
 ```

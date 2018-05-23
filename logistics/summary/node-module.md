@@ -135,3 +135,6 @@ console.log(counter);  // 3
 incCounter();
 console.log(counter); // 3
 ```
+
+#### node 中使用import
+
